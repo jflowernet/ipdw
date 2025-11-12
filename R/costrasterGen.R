@@ -73,18 +73,18 @@ costrasterGen <- function(xymat, pols, extent = "polys", projstr,
 
   # generate cost raster
   if (resolution != 1) {
-    r <- raster::raster(nrow = nrow, ncol = ncol, crs = projstr, xmn = xmn,
-      xmx = xmx, ymn = ymn, ymx = ymx, resolution = resolution)
+    r <- terra::rast(crs = projstr, xmin = xmn,
+      xmax = xmx, ymin = ymn, ymax = ymx, resolution = resolution)
   } else {
-    r <- raster::raster(nrow = nrow, ncol = ncol, crs = projstr, xmn = xmn,
-      xmx = xmx, ymn = ymn, ymx = ymx)
+    r <- terra::rast(nrows = nrow, ncols = ncol, crs = projstr, xmin = xmn,
+      xmax = xmx, ymin = ymn, ymax = ymx)
   }
 
-  costras <- raster::rasterize(pols, r, silent = TRUE)
-  m <- c(0, +Inf, 10000)
+  costras <- terra::rasterize(pols, r)
+  m <- c(0, Inf, 10000)
   rclmat <- matrix(m, ncol = 3, byrow = TRUE)
-  costras <- raster::reclassify(costras, rclmat)
-  costras <- raster::reclassify(costras, cbind(NA, 1))
+  costras <- terra::classify(costras, rclmat)
+  costras <- terra::classify(costras, cbind(NA, 1))
 
   return(costras)
 }

@@ -4,17 +4,17 @@
 #' @description Generate a stack of path accumulated distance raster objects
 #'
 #' @param sf_ob sf object with point geometries
-#' @param costras RasterLayer cost raster
+#' @param costras SpatRaster cost raster
 #' @param range numeric. Range of interpolation neighborhood
 #' @param yearmon character. String specifying the name of the sf_ob
 #' @param progressbar logical show progressbar during processing?
 #'
-#' @return RasterStack object of path distances
+#' @return Multi-layer SpatRaster object of path distances
 #'
-#' @importFrom raster res reclassify writeRaster stack hist
+#' @importFrom terra res classify writeRaster c hist
 #' @importFrom gdistance transition accCost
 #' @importFrom utils setTxtProgressBar
-#' @importFrom sf st_coordinates
+#' @importFrom sf st_coordinates st_crs
 #' @export
 #'
 #' @examples
@@ -24,7 +24,7 @@
 #' sf_ob <- st_as_sf(cbind(sf_ob, xy), coords = c("x", "y"))
 #'
 #' m <- matrix(NA, 10, 10)
-#' costras <- raster(m, xmn = 0, xmx = ncol(m), ymn = 0, ymx = nrow(m))
+#' costras <- rast(m)
 #' costras[] <- runif(ncell(costras), min = 1, max = 10)
 #' # introduce spatial gradient
 #' for (i in 1:nrow(costras)) {
@@ -40,22 +40,23 @@ pathdistGen <- function(sf_ob, costras, range, yearmon = "default",
     stop("sf_ob object must be of class sf")
   }
 
-  if (!identical(raster::projection(sf_ob), raster::projection(costras))) {
+  if (!identical(sf::st_crs(sf_ob), sf::st_crs(costras))) {
     stop("Point data projection and cost raster projections do not match,
     		 see sf::st_transform")
   }
 
-  ipdw_range <- range / raster::res(costras)[1] / 2 # this is a per cell distance
+  ipdw_range <- range / terra::res(costras)[1] / 2 # this is a per cell distance
 
   # start interpolation
   # calculate conductances hence 1/max(x)
-  trans <- gdistance::transition(costras, function(x) 1 / max(x),
+  trans <- gdistance::transition(raster::raster(costras), function(x) 1 / max(x),
     directions = 16)
   i <- 1
   coord <- sf_ob[i, ]
   costsurf <- gdistance::accCost(trans, t(matrix(st_coordinates(coord))))
+  costsurf <- terra::rast(costsurf)
 
-  ipdw_dist <- raster::hist(costsurf, plot = FALSE)$breaks[2]
+  ipdw_dist <- terra::hist(costsurf, plot = FALSE)$breaks[2]
   if (ipdw_dist < ipdw_range) {
     ipdw_dist <- ipdw_range
   }

@@ -4,7 +4,7 @@
 #' @description Interpolate geo-referenced point data using inverse path distance weighting.
 #'
 #' @param sf_ob sf object with point geometries
-#' @param costras RasterLayer. Cost raster
+#' @param costras SpatRaster. Cost raster
 #' @param range numeric. Range of interpolation neighborhood
 #' @param paramlist character. String representing parameter names
 #' @param overlapped logical. Default is FALSE, specify TRUE if some points lie on top of barriers
@@ -14,7 +14,7 @@
 #' @param dist_power numeric. Distance decay power (p)
 #' @param trim_rstack logical. Trim the raster output by the convex hill of sf_ob
 #'
-#' @return RasterLayer
+#' @return SpatRaster
 #'
 #' @details This is a high level function that interpolates an
 #' sf object with point geometries in a single pass.
