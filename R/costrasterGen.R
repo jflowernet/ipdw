@@ -6,15 +6,15 @@
 #' @param xymat Matrix of coordinates or an sf object with point geometries
 #' @param pols sf object with polygon geometries
 #' @param extent Define extent based on extent of xymat/sf (points) or pols (polys). Default is polys.
-#' @param resolution Numeric defaults to 1. See \code{\link[raster]{raster}}.
+#' @param resolution Numeric defaults to 1. See \code{\link[terra]{rast}}.
 #' @param projstr proj4 string defining the output projection. A warning will be thrown if projstr does not match the projection of the extent target. Pass NULL for non-geographic grids.
 #'
 #' @details Ensure that the projection of the xymat coordinates and pols match. If they do not match use the \code{st_transform} command.
-#' @seealso \code{\link[raster]{rasterize}}
+#' @seealso \code{\link[terra]{rasterize}}
 #'
-#' @return RasterLayer
+#' @return SpatRaster
 #'
-#' @importFrom raster raster rasterize reclassify
+#' @importFrom terra rast rasterize classify
 #' @importFrom sf st_polygon st_as_sf st_crs st_bbox
 #' @importFrom methods is
 #' @export

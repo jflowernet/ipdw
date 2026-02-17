@@ -12,7 +12,7 @@ BugReports: https://github.com/jsta/ipdw/issues
 Depends:
     R (>= 3.0.2),gdistance
 Imports:
-    sf,raster,methods
+    sf,terra,methods
 Suggests:
     gstat,gdata,spatstat,
     testthat,
@@ -20,6 +20,6 @@ Suggests:
     rmarkdown
 License: GPL (>= 2)
 Encoding: UTF-8
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.3
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)

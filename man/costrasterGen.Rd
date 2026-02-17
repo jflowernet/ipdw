@@ -15,10 +15,10 @@ costrasterGen(xymat, pols, extent = "polys", projstr, resolution = 1)
 
 \item{projstr}{proj4 string defining the output projection. A warning will be thrown if projstr does not match the projection of the extent target. Pass NULL for non-geographic grids.}
 
-\item{resolution}{Numeric defaults to 1. See \code{\link[raster]{raster}}.}
+\item{resolution}{Numeric defaults to 1. See \code{\link[terra]{rast}}.}
 }
 \value{
-RasterLayer
+SpatRaster
 }
 \description{
 Generate a cost raster from an object of class sf with point or polygon geometries
@@ -47,5 +47,5 @@ points(xymat)
 }
 }
 \seealso{
-\code{\link[raster]{rasterize}}
+\code{\link[terra]{rasterize}}
 }

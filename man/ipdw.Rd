@@ -20,7 +20,7 @@ ipdw(
 \arguments{
 \item{sf_ob}{sf object with point geometries}
 
-\item{costras}{RasterLayer. Cost raster}
+\item{costras}{SpatRaster. Cost raster}
 
 \item{range}{numeric. Range of interpolation neighborhood}
 
@@ -39,7 +39,7 @@ ipdw(
 \item{trim_rstack}{logical. Trim the raster output by the convex hill of sf_ob}
 }
 \value{
-RasterLayer
+SpatRaster
 }
 \description{
 Interpolate geo-referenced point data using inverse path distance weighting.

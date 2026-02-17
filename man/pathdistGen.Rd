@@ -9,7 +9,7 @@ pathdistGen(sf_ob, costras, range, yearmon = "default", progressbar = TRUE)
 \arguments{
 \item{sf_ob}{sf object with point geometries}
 
-\item{costras}{RasterLayer cost raster}
+\item{costras}{SpatRaster cost raster}
 
 \item{range}{numeric. Range of interpolation neighborhood}
 
@@ -18,7 +18,7 @@ pathdistGen(sf_ob, costras, range, yearmon = "default", progressbar = TRUE)
 \item{progressbar}{logical show progressbar during processing?}
 }
 \value{
-RasterStack object of path distances
+Multi-layer SpatRaster object of path distances
 }
 \description{
 Generate a stack of path accumulated distance raster objects
@@ -30,7 +30,7 @@ xy   <- data.frame(x = c(4, 2), y = c(8, 4))
 sf_ob <- st_as_sf(cbind(sf_ob, xy), coords = c("x", "y"))
 
 m <- matrix(NA, 10, 10)
-costras <- raster(m, xmn = 0, xmx = ncol(m), ymn = 0, ymx = nrow(m))
+costras <- rast(m)
 costras[] <- runif(ncell(costras), min = 1, max = 10)
 # introduce spatial gradient
 for (i in 1:nrow(costras)) {

@@ -11,7 +11,7 @@
 #'
 #' @return Multi-layer SpatRaster object of path distances
 #'
-#' @importFrom terra res classify writeRaster c hist
+#' @importFrom terra res classify writeRaster hist
 #' @importFrom gdistance transition accCost
 #' @importFrom utils setTxtProgressBar
 #' @importFrom sf st_coordinates st_crs
@@ -53,7 +53,7 @@ pathdistGen <- function(sf_ob, costras, range, yearmon = "default",
     directions = 16)
   i <- 1
   coord <- sf_ob[i, ]
-  costsurf <- gdistance::accCost(trans, t(matrix(st_coordinates(coord))))
+  costsurf <- gdistance::accCost(trans, t(matrix(sf::st_coordinates(coord))))
   costsurf <- terra::rast(costsurf)
 
   ipdw_dist <- terra::hist(costsurf, plot = FALSE)$breaks[2]
